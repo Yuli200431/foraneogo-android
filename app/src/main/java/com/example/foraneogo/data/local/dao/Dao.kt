@@ -90,6 +90,6 @@ interface SeguimientoDao {
 
     @Delete
     suspend fun eliminar(
-        seguimiento: SeguimientoDao
+        seguimiento: SeguimientoEntity
     )
 }
