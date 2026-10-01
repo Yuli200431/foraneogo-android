@@ -21,7 +21,7 @@ interface SectorDao {
 }
 
 @Dao
-interface AlojaminetoDao{
+interface AlojamientoDao{
     @Query("SELECT * FROM alojamientos ORDER BY id DESC")
     fun observarTodos():Flow<List<AlojamientoEntity>>
 
