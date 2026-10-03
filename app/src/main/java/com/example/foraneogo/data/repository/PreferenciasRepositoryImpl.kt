@@ -23,7 +23,7 @@ class PreferenciasRepositoryImpl(
     }
 
     private companion object {
-        const val PRECIO_MAXIMO_POR_DEFECTO = 1000.0
+        const val PRECIO_MAXIMO_POR_DEFECTO = 2000.0
     }
 
     // Si el archivo falla al leerse, se usan los valores por defecto
