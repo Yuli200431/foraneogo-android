@@ -33,7 +33,7 @@ interface SeguimientoRepository{
         alojamientoId: Long,
         estado: EstadoSeguimiento,
         notas: String,
-        fechaCitasMillis: Long?
+        fechaCitaMillis: Long?
     )
     suspend fun alternarFavorito(alojamientoId: Long)
     suspend fun eliminarSeguimiento(alojamientoId: Long)
