@@ -2,8 +2,6 @@ package com.example.foraneogo.di
 
 import android.content.Context
 import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.foraneogo.data.local.AppDatabase
 import com.example.foraneogo.data.local.DatosIniciales
 import com.example.foraneogo.data.preferences.preferenciasDataStore
@@ -13,9 +11,7 @@ import com.example.foraneogo.data.repository.PreferenciasRepository
 import com.example.foraneogo.data.repository.PreferenciasRepositoryImpl
 import com.example.foraneogo.data.repository.SeguimientoRepository
 import com.example.foraneogo.data.repository.SeguimientoRepositoryImpl
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.first
 
 // Contenedor de dependencias: aquí se crea todo UNA sola vez.
 class ContenedorApp(private val contexto: Context) {
@@ -25,18 +21,16 @@ class ContenedorApp(private val contexto: Context) {
             contexto.applicationContext,
             AppDatabase::class.java,
             "foraneogo.db"
-        )
-            .addCallback(object : RoomDatabase.Callback() {
-                override fun onCreate(db: SupportSQLiteDatabase) {
-                    super.onCreate(db)
-                    // Solo se ejecuta la primera vez que se crea el archivo de la BD
-                    CoroutineScope(Dispatchers.IO).launch {
-                        baseDeDatos.sectorDao().insertarTodos(DatosIniciales.sectores)
-                        baseDeDatos.alojamientoDao().insertarTodos(DatosIniciales.alojamientos)
-                    }
-                }
-            })
-            .build()
+        ).build()
+    }
+
+    // Carga los datos de ejemplo solo si todavía no hay sectores guardados
+    suspend fun cargarDatosIniciales() {
+        val sectores = baseDeDatos.sectorDao().observarTodos().first()
+        if (sectores.isEmpty()) {
+            baseDeDatos.sectorDao().insertarTodos(DatosIniciales.sectores)
+            baseDeDatos.alojamientoDao().insertarTodos(DatosIniciales.alojamientos)
+        }
     }
 
     val catalogoRepository: CatalogoRepository by lazy {

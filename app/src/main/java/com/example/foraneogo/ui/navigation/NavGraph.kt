@@ -11,6 +11,7 @@ import com.example.foraneogo.ui.catalogo.CatalogoScreen
 import com.example.foraneogo.ui.configuracion.ConfiguracionScreen
 import com.example.foraneogo.ui.dashboard.DashboardScreen
 import com.example.foraneogo.ui.detalle.DetalleScreen
+import com.example.foraneogo.ui.detalle.DetalleViewModel
 import com.example.foraneogo.ui.favoritos.FavoritosScreen
 import com.example.foraneogo.ui.splash.SplashScreen
 
@@ -51,12 +52,10 @@ fun AppNavigation(navController: NavHostController) {
         composable(
             route = Ruta.Detalle.route,
             arguments = listOf(
-                navArgument("alojamientoId") { type = NavType.LongType }
+                navArgument(DetalleViewModel.ARG_ALOJAMIENTO_ID) { type = NavType.LongType }
             )
-        ) { backStackEntry ->
-            val alojamientoId = backStackEntry.arguments?.getLong("alojamientoId") ?: 0L
+        ) {
             DetalleScreen(
-                alojamientoId = alojamientoId,
                 onVolver = { navController.popBackStack() }
             )
         }

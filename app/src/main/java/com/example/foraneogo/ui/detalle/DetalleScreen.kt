@@ -8,7 +8,6 @@ import com.example.foraneogo.ui.common.ViewModelFactory
 
 @Composable
 fun DetalleScreen(
-    alojamientoId: Long,
     onVolver: () -> Unit,
     viewModel: DetalleViewModel = viewModel(factory = ViewModelFactory.Factory)
 ) {
