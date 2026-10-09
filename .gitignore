@@ -13,4 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
-.artifacts/.idea/deviceManager.xml
+.artifacts/
+.idea/deviceManager.xml
