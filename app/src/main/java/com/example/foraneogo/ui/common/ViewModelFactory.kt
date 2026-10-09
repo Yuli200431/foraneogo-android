@@ -64,5 +64,11 @@ object ViewModelFactory {
                 preferenciasRepository = contenedor.preferenciasRepository
             )
         }
+        initializer {
+            val contenedor = (this[APPLICATION_KEY] as ForaneoApp).contenedor
+            TemaViewModel(
+                preferenciasRepository = contenedor.preferenciasRepository
+            )
+        }
     }
 }
