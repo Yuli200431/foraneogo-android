@@ -1,5 +1,6 @@
-package com.example.foraneogo.ui.bitacora
+package com.example.foraneogo.ui.favoritos
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,14 +19,15 @@ import androidx.compose.ui.Modifier
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BitacoraContent(
-    estado: BitacoraUiState,
+fun FavoritosContent(
+    estado: FavoritosUiState,
+    onAlojamientoClick: (Long) -> Unit,
     onVolver: () -> Unit
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Bitácora de Seguimiento") },
+                title = { Text("Favoritos") },
                 navigationIcon = {
                     Button(onClick = onVolver) {
                         Text("Volver")
@@ -36,11 +38,11 @@ fun BitacoraContent(
     ) { innerPadding ->
         if (estado.cargando) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("Cargando bitácora...")
+                Text("Cargando favoritos...")
             }
-        } else if (estado.seguimientos.isEmpty()) {
+        } else if (estado.favoritos.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("No hay registros en la bitácora")
+                Text("No tienes alojamientos favoritos")
             }
         } else {
             LazyColumn(
@@ -48,11 +50,13 @@ fun BitacoraContent(
                     .fillMaxSize()
                     .padding(innerPadding)
             ) {
-                items(estado.seguimientos) { item ->
+                items(estado.favoritos) { favorito ->
                     ListItem(
-                        headlineContent = { Text(item.alojamiento.titulo) },
-                        supportingContent = { Text("Estado: ${item.seguimiento.estado}") },
-                        modifier = Modifier.fillMaxWidth()
+                        headlineContent = { Text(favorito.titulo) },
+                        supportingContent = { Text("Precio: $${favorito.precioMensual}") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { onAlojamientoClick(favorito.id) }
                     )
                 }
             }
