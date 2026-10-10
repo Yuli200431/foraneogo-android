@@ -2,9 +2,13 @@ package com.example.foraneogo.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+
 val primaryLight = Color(0xFF006B5F)
+
 val onPrimaryLight = Color(0xFFFFFFFF)
+
 val primaryContainerLight = Color(0xFF9EF2E3)
+
 val onPrimaryContainerLight = Color(0xFF005047)
 val secondaryLight = Color(0xFF4A635E)
 val onSecondaryLight = Color(0xFFFFFFFF)
