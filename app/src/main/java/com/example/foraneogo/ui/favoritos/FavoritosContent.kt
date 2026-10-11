@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -36,28 +38,51 @@ fun FavoritosContent(
             )
         }
     ) { innerPadding ->
-        if (estado.cargando) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("Cargando favoritos...")
-            }
-        } else if (estado.favoritos.isEmpty()) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("No tienes alojamientos favoritos")
-            }
-        } else {
-            LazyColumn(
+        when (estado) {
+            FavoritosUiState.Loading -> Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(innerPadding)
+                    .padding(innerPadding),
+                contentAlignment = Alignment.Center
             ) {
-                items(estado.favoritos) { favorito ->
-                    ListItem(
-                        headlineContent = { Text(favorito.titulo) },
-                        supportingContent = { Text("Precio: $${favorito.precioMensual}") },
+                CircularProgressIndicator()
+            }
+
+            is FavoritosUiState.Error -> Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = estado.mensaje, color = MaterialTheme.colorScheme.error)
+            }
+
+            is FavoritosUiState.Success -> {
+                if (estado.estaVacia) {
+                    Box(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { onAlojamientoClick(favorito.id) }
-                    )
+                            .fillMaxSize()
+                            .padding(innerPadding),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text("No tienes alojamientos favoritos")
+                    }
+                } else {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)
+                    ) {
+                        items(estado.favoritos) { favorito ->
+                            ListItem(
+                                headlineContent = { Text(favorito.titulo) },
+                                supportingContent = { Text("Precio: $${favorito.precioMensual}") },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable { onAlojamientoClick(favorito.id) }
+                            )
+                        }
+                    }
                 }
             }
         }

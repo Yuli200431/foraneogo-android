@@ -1,9 +1,13 @@
 package com.example.foraneogo.ui.dashboard
 
-data class DashboardUiState(
-    val cargando: Boolean = true,
-    val totalAlojamientos: Int = 0,
-    val totalBitacora: Int = 0,
-    val totalFavoritos: Int = 0,
-    val error: String? = null
-)
+sealed interface DashboardUiState {
+    data object Loading : DashboardUiState
+
+    data class Success(
+        val totalAlojamientos: Int,
+        val totalBitacora: Int,
+        val totalFavoritos: Int
+    ) : DashboardUiState
+
+    data class Error(val mensaje: String) : DashboardUiState
+}

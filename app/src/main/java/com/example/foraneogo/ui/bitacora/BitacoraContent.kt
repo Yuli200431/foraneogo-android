@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -34,26 +36,49 @@ fun BitacoraContent(
             )
         }
     ) { innerPadding ->
-        if (estado.cargando) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("Cargando bitácora...")
-            }
-        } else if (estado.seguimientos.isEmpty()) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("No hay registros en la bitácora")
-            }
-        } else {
-            LazyColumn(
+        when (estado) {
+            BitacoraUiState.Loading -> Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(innerPadding)
+                    .padding(innerPadding),
+                contentAlignment = Alignment.Center
             ) {
-                items(estado.seguimientos) { item ->
-                    ListItem(
-                        headlineContent = { Text(item.alojamiento.titulo) },
-                        supportingContent = { Text("Estado: ${item.seguimiento.estado}") },
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                CircularProgressIndicator()
+            }
+
+            is BitacoraUiState.Error -> Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = estado.mensaje, color = MaterialTheme.colorScheme.error)
+            }
+
+            is BitacoraUiState.Success -> {
+                if (estado.estaVacia) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text("No hay registros en la bitácora")
+                    }
+                } else {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)
+                    ) {
+                        items(estado.seguimientos) { item ->
+                            ListItem(
+                                headlineContent = { Text(item.alojamiento.titulo) },
+                                supportingContent = { Text("Estado: ${item.seguimiento.estado}") },
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+                    }
                 }
             }
         }

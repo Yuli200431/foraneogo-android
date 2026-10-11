@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import com.example.foraneogo.data.model.SeguimientoConAlojamiento
 
 class BitacoraViewModel(
     private val seguimientoRepository: SeguimientoRepository
@@ -26,16 +27,16 @@ class BitacoraViewModel(
 
     // Único estado que expone este ViewModel.
     val estado: StateFlow<BitacoraUiState> = seguimientoRepository.observarBitacora()
-        .map { lista ->
-            BitacoraUiState(cargando = false, seguimientos = lista)
+        .map<List<SeguimientoConAlojamiento>, BitacoraUiState> { lista ->
+            BitacoraUiState.Success(lista)
         }
         .catch {
-            emit(BitacoraUiState(cargando = false, error = "No se pudo cargar la bitácora"))
+            emit(BitacoraUiState.Error("No se pudo cargar la bitácora"))
         }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = BitacoraUiState()
+            initialValue = BitacoraUiState.Loading
         )
 
     // Acciones del usuario.

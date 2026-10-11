@@ -16,24 +16,23 @@ class DashboardViewModel(
 ) : ViewModel() {
 
     // Único estado que expone este ViewModel. Se arma juntando los 3 totales.
-    val estado: StateFlow<DashboardUiState> = combine(
+    val estado: StateFlow<DashboardUiState> = combine<Int, Int, Int, DashboardUiState>(
         catalogoRepository.observarTotalAlojamientos(),
         seguimientoRepository.observarTotalBitacora(),
         seguimientoRepository.observarTotalFavoritos()
     ) { alojamientos, bitacora, favoritos ->
-        DashboardUiState(
-            cargando = false,
+        DashboardUiState.Success(
             totalAlojamientos = alojamientos,
             totalBitacora = bitacora,
             totalFavoritos = favoritos
         )
     }
         .catch {
-            emit(DashboardUiState(cargando = false, error = "No se pudieron cargar los datos"))
+            emit(DashboardUiState.Error("No se pudieron cargar los datos"))
         }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = DashboardUiState()
+            initialValue = DashboardUiState.Loading
         )
 }

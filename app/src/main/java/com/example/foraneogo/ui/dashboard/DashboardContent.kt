@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -38,9 +40,20 @@ fun DashboardContent(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Total Alojamientos: ${estado.totalAlojamientos}")
-            Text("Total Bitácora: ${estado.totalBitacora}")
-            Text("Total Favoritos: ${estado.totalFavoritos}")
+            when (estado) {
+                DashboardUiState.Loading -> CircularProgressIndicator()
+
+                is DashboardUiState.Success -> {
+                    Text("Total Alojamientos: ${estado.totalAlojamientos}")
+                    Text("Total Bitácora: ${estado.totalBitacora}")
+                    Text("Total Favoritos: ${estado.totalFavoritos}")
+                }
+
+                is DashboardUiState.Error -> Text(
+                    text = estado.mensaje,
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
 
             Button(onClick = onNavegarACatalogo, modifier = Modifier.padding(top = 8.dp)) {
                 Text("Ir al Catálogo")
