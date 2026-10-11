@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -32,27 +34,34 @@ fun DetalleContent(
             )
         }
     ) { innerPadding ->
-        if (estado.cargando) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("Cargando detalle...")
+        when (estado) {
+            DetalleUiState.Loading -> Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
             }
-        } else if (estado.error != null) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(estado.error!!)
+
+            is DetalleUiState.Error -> Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = estado.mensaje, color = MaterialTheme.colorScheme.error)
             }
-        } else {
-            val alojamiento = estado.alojamiento
-            if (alojamiento != null) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding)
-                        .padding(16.dp)
-                ) {
-                    Text(text = alojamiento.titulo)
-                    Text(text = "Precio: $${alojamiento.precioMensual}")
-                    Text(text = "Descripción: ${alojamiento.descripcion}")
-                }
+
+            is DetalleUiState.Success -> Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(16.dp)
+            ) {
+                Text(text = estado.alojamiento.titulo)
+                Text(text = "Precio: $${estado.alojamiento.precioMensual}")
+                Text(text = "Descripción: ${estado.alojamiento.descripcion}")
             }
         }
     }
