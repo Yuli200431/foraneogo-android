@@ -17,6 +17,8 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import com.example.foraneogo.data.model.Alojamiento
+import com.example.foraneogo.data.model.Sector
 
 class CatalogoViewModel(
     catalogoRepository: CatalogoRepository,
@@ -45,12 +47,11 @@ class CatalogoViewModel(
     @OptIn(ExperimentalCoroutinesApi::class)
     val estado: StateFlow<CatalogoUiState> = filtros
         .flatMapLatest { f ->
-            combine(
+            combine<List<Alojamiento>, List<Sector>, CatalogoUiState>(
                 catalogoRepository.observarFiltrados(f.sectorId, f.precioMax, f.texto),
                 catalogoRepository.observarSectores()
             ) { alojamientos, sectores ->
-                CatalogoUiState(
-                    cargando = false,
+                CatalogoUiState.Success(
                     alojamientos = alojamientos,
                     sectores = sectores,
                     sectorSeleccionadoId = f.sectorId,
@@ -60,14 +61,13 @@ class CatalogoViewModel(
             }
         }
         .catch {
-            emit(CatalogoUiState(cargando = false, error = "No se pudo cargar el catálogo"))
+            emit(CatalogoUiState.Error("No se pudo cargar el catálogo"))
         }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = CatalogoUiState()
+            initialValue = CatalogoUiState.Loading
         )
-
     // Acciones del usuario. sectorId = null significa "todos los sectores".
     fun cambiarSector(sectorId: Long?) {
         filtros.update { it.copy(sectorId = sectorId) }
