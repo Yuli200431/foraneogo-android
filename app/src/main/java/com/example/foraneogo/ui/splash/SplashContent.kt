@@ -18,13 +18,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.foraneogo.R
 
-// Vista pura: no recibe ViewModel ni estado. Solo dibuja el logo, el nombre,
-// el lema y un indicador de carga animado (RF01).
+// Vista pura: Solo dibuja el logo, el nombre, el lema y un indicador de carga animado (RF01).
 @Composable
 fun SplashContent() {
     Column(
         modifier = Modifier
             .fillMaxSize()
+
             .background(MaterialTheme.colorScheme.primary),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center

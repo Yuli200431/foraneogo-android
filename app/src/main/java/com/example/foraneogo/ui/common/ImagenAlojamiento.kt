@@ -31,7 +31,11 @@ fun ImagenAlojamiento(
         if (nombreImagen.isNullOrBlank()) {
             0
         } else {
-            contexto.resources.getIdentifier(nombreImagen, "drawable", contexto.packageName)
+            contexto.resources.getIdentifier(
+                nombreImagen.substringBeforeLast("."),
+                "drawable",
+                contexto.packageName
+            )
         }
     }
 
