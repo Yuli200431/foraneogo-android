@@ -17,6 +17,7 @@ fun CatalogoScreen(
     CatalogoContent(
         estado = estado,
         onAlojamientoClick = onAlojamientoClick,
-        onVolver = onVolver
+        onVolver = onVolver,
+        onBuscarCambio = viewModel::cambiarTexto
     )
 }

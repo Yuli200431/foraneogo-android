@@ -21,7 +21,9 @@ class ContenedorApp(private val contexto: Context) {
             contexto.applicationContext,
             AppDatabase::class.java,
             "foraneogo.db"
-        ).build()
+        )
+            .fallbackToDestructiveMigration(true)
+            .build()
     }
 
     // Carga los datos de ejemplo solo si todavía no hay sectores guardados

@@ -30,37 +30,26 @@ fun DashboardContent(
     onNavegarAFavoritos: () -> Unit,
     onNavegarAConfiguracion: () -> Unit
 ) {
-    Scaffold(
-        topBar = {
-            // Cabecera elegante estilo mockup
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 12.dp)
-            ) {
-                Text(
-                    text = "Foráneo GO",
-                    style = MaterialTheme.typography.headlineMedium.copy(
-                        fontWeight = FontWeight.Bold,
-                        fontStyle = FontStyle.Italic
-                    ),
-                    color = MaterialTheme.colorScheme.primary
-                )
-                Text(
-                    text = "¡Hola, estudiante!",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-        }
-    ) { innerPadding ->
+    Scaffold { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Título principal centrado (sin "¡Hola, estudiante!")
+            Text(
+                text = "Foráneo GO",
+                style = MaterialTheme.typography.headlineLarge.copy(
+                    fontWeight = FontWeight.Bold,
+                    fontStyle = FontStyle.Italic
+                ),
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+            )
+
             when (estado) {
                 DashboardUiState.Loading -> Box(
                     modifier = Modifier
@@ -98,7 +87,7 @@ fun DashboardContent(
                 )
             }
 
-            // Opciones de menú estilo tarjeta con flecha (Mockup)
+            // Opciones de menú estilo tarjeta con flecha
             OpcionMenuCard(
                 titulo = "Alojamiento",
                 icono = "🏠",

@@ -18,8 +18,8 @@ import com.example.foraneogo.data.local.entities.SeguimientoEntity
         AlojamientoEntity::class,
         SeguimientoEntity::class
     ],
-    version=1,
-    exportSchema =false,
+    version = 2,
+    exportSchema = false,
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
