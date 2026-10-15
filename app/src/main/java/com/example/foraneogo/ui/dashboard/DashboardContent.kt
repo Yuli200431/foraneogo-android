@@ -8,17 +8,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,9 +32,26 @@ fun DashboardContent(
 ) {
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("ForáneoGO") }
-            )
+            // Cabecera elegante estilo mockup
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
+            ) {
+                Text(
+                    text = "Foráneo GO",
+                    style = MaterialTheme.typography.headlineMedium.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontStyle = FontStyle.Italic
+                    ),
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    text = "¡Hola, estudiante!",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
     ) { innerPadding ->
         Column(
@@ -81,18 +98,64 @@ fun DashboardContent(
                 )
             }
 
-            Button(onClick = onNavegarACatalogo, modifier = Modifier.fillMaxWidth()) {
-                Text("Ver catálogo")
+            // Opciones de menú estilo tarjeta con flecha (Mockup)
+            OpcionMenuCard(
+                titulo = "Alojamiento",
+                icono = "🏠",
+                onClick = onNavegarACatalogo
+            )
+            OpcionMenuCard(
+                titulo = "Mi Bitácora",
+                icono = "📋",
+                onClick = onNavegarABitacora
+            )
+            OpcionMenuCard(
+                titulo = "Favoritos",
+                icono = "⭐",
+                onClick = onNavegarAFavoritos
+            )
+            OpcionMenuCard(
+                titulo = "Configuración",
+                icono = "⚙️",
+                onClick = onNavegarAConfiguracion
+            )
+        }
+    }
+}
+
+@Composable
+fun OpcionMenuCard(
+    titulo: String,
+    icono: String,
+    onClick: () -> Unit
+) {
+    Card(
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(text = icono, style = MaterialTheme.typography.titleLarge)
+                Text(
+                    text = titulo,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold
+                )
             }
-            Button(onClick = onNavegarABitacora, modifier = Modifier.fillMaxWidth()) {
-                Text("Mi bitácora")
-            }
-            Button(onClick = onNavegarAFavoritos, modifier = Modifier.fillMaxWidth()) {
-                Text("Mis favoritos")
-            }
-            OutlinedButton(onClick = onNavegarAConfiguracion, modifier = Modifier.fillMaxWidth()) {
-                Text("Configuración")
-            }
+            Text(
+                text = "›",
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.primary
+            )
         }
     }
 }
