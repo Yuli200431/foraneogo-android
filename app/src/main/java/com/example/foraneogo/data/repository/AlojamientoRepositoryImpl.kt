@@ -3,22 +3,19 @@ package com.example.foraneogo.data.repository
 import com.example.foraneogo.data.local.dao.AlojamientoDao
 import com.example.foraneogo.data.local.dao.SectorDao
 import com.example.foraneogo.data.local.dao.SeguimientoDao
-import com.example.foraneogo.data.mapper.aModelo
 import com.example.foraneogo.data.mapper.aModelos
 import com.example.foraneogo.data.model.Alojamiento
-import com.example.foraneogo.data.model.Sector
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 
-class CatalogoRepositoryImpl(
+// Usa los DAO de sectores y seguimientos solo para completar cada alojamiento
+// con el nombre de su sector y saber si es favorito.
+class AlojamientoRepositoryImpl(
     private val sectorDao: SectorDao,
     private val alojamientoDao: AlojamientoDao,
     private val seguimientoDao: SeguimientoDao
-) : CatalogoRepository {
-
-    override fun observarSectores(): Flow<List<Sector>> =
-        sectorDao.observarTodos().map { lista -> lista.map { it.aModelo() } }
+) : AlojamientoRepository {
 
     override fun observarAlojamientos(): Flow<List<Alojamiento>> =
         combine(
