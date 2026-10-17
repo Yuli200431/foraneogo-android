@@ -2,24 +2,12 @@ package com.example.foraneogo.data.repository
 
 import com.example.foraneogo.data.local.entities.EstadoSeguimiento
 import com.example.foraneogo.data.model.Alojamiento
-import com.example.foraneogo.data.model.Sector
 import com.example.foraneogo.data.model.Seguimiento
 import com.example.foraneogo.data.model.SeguimientoConAlojamiento
 import kotlinx.coroutines.flow.Flow
 
 
 //Catalogo: alojamiento + sectores
-interface CatalogoRepository{
-    fun observarSectores(): Flow<List<Sector>>
-    fun observarAlojamientos(): Flow<List<Alojamiento>>
-    fun observarFiltrados(
-        sectorId: Long?,
-        precioMax: Double,
-        texto: String
-    ): Flow<List<Alojamiento>>
-    fun observarAlojamiento(id: Long): Flow<Alojamiento?>
-    fun observarTotalAlojamientos(): Flow<Int>
-}
 
 //Bitacora y favoritos
 interface SeguimientoRepository{

@@ -21,7 +21,7 @@ object ViewModelFactory {
         initializer {
             val contenedor = (this[APPLICATION_KEY] as ForaneoApp).contenedor
             DashboardViewModel(
-                catalogoRepository = contenedor.catalogoRepository,
+                alojamientoRepository = contenedor.alojamientoRepository,
                 seguimientoRepository = contenedor.seguimientoRepository
             )
         }
@@ -29,7 +29,8 @@ object ViewModelFactory {
         initializer {
             val contenedor = (this[APPLICATION_KEY] as ForaneoApp).contenedor
             CatalogoViewModel(
-                catalogoRepository = contenedor.catalogoRepository,
+                alojamientoRepository = contenedor.alojamientoRepository,
+                sectorRepository = contenedor.sectorRepository,
                 preferenciasRepository = contenedor.preferenciasRepository
             )
         }
@@ -38,7 +39,7 @@ object ViewModelFactory {
             val contenedor = (this[APPLICATION_KEY] as ForaneoApp).contenedor
             DetalleViewModel(
                 savedStateHandle = createSavedStateHandle(),
-                catalogoRepository = contenedor.catalogoRepository,
+                alojamientoRepository = contenedor.alojamientoRepository,
                 seguimientoRepository = contenedor.seguimientoRepository
             )
         }
@@ -60,7 +61,7 @@ object ViewModelFactory {
         initializer {
             val contenedor = (this[APPLICATION_KEY] as ForaneoApp).contenedor
             ConfiguracionViewModel(
-                catalogoRepository = contenedor.catalogoRepository,
+                sectorRepository = contenedor.sectorRepository,
                 preferenciasRepository = contenedor.preferenciasRepository
             )
         }

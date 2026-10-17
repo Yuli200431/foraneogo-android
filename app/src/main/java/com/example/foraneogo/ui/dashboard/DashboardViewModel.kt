@@ -2,7 +2,7 @@ package com.example.foraneogo.ui.dashboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.foraneogo.data.repository.CatalogoRepository
+import com.example.foraneogo.data.repository.AlojamientoRepository
 import com.example.foraneogo.data.repository.SeguimientoRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -11,13 +11,13 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 
 class DashboardViewModel(
-    catalogoRepository: CatalogoRepository,
+    alojamientoRepository: AlojamientoRepository,
     seguimientoRepository: SeguimientoRepository
 ) : ViewModel() {
 
     // Único estado que expone este ViewModel. Se arma juntando los 3 totales.
     val estado: StateFlow<DashboardUiState> = combine<Int, Int, Int, DashboardUiState>(
-        catalogoRepository.observarTotalAlojamientos(),
+        alojamientoRepository.observarTotalAlojamientos(),
         seguimientoRepository.observarTotalBitacora(),
         seguimientoRepository.observarTotalFavoritos()
     ) { alojamientos, bitacora, favoritos ->

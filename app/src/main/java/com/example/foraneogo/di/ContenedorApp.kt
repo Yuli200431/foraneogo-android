@@ -5,13 +5,15 @@ import androidx.room.Room
 import com.example.foraneogo.data.local.AppDatabase
 import com.example.foraneogo.data.local.DatosIniciales
 import com.example.foraneogo.data.preferences.preferenciasDataStore
-import com.example.foraneogo.data.repository.CatalogoRepository
-import com.example.foraneogo.data.repository.CatalogoRepositoryImpl
 import com.example.foraneogo.data.repository.PreferenciasRepository
 import com.example.foraneogo.data.repository.PreferenciasRepositoryImpl
 import com.example.foraneogo.data.repository.SeguimientoRepository
 import com.example.foraneogo.data.repository.SeguimientoRepositoryImpl
 import kotlinx.coroutines.flow.first
+import com.example.foraneogo.data.repository.AlojamientoRepository
+import com.example.foraneogo.data.repository.AlojamientoRepositoryImpl
+import com.example.foraneogo.data.repository.SectorRepository
+import com.example.foraneogo.data.repository.SectorRepositoryImpl
 
 // Contenedor de dependencias: aquí se crea todo UNA sola vez.
 class ContenedorApp(private val contexto: Context) {
@@ -35,8 +37,13 @@ class ContenedorApp(private val contexto: Context) {
         }
     }
 
-    val catalogoRepository: CatalogoRepository by lazy {
-        CatalogoRepositoryImpl(
+
+    val sectorRepository: SectorRepository by lazy {
+        SectorRepositoryImpl(baseDeDatos.sectorDao())
+    }
+
+    val alojamientoRepository: AlojamientoRepository by lazy {
+        AlojamientoRepositoryImpl(
             baseDeDatos.sectorDao(),
             baseDeDatos.alojamientoDao(),
             baseDeDatos.seguimientoDao()

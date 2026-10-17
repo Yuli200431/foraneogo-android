@@ -4,7 +4,8 @@ package com.example.foraneogo.ui.catalogo
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.foraneogo.data.repository.CatalogoRepository
+import com.example.foraneogo.data.repository.AlojamientoRepository
+import com.example.foraneogo.data.repository.SectorRepository
 import com.example.foraneogo.data.repository.PreferenciasRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +22,8 @@ import com.example.foraneogo.data.model.Alojamiento
 import com.example.foraneogo.data.model.Sector
 
 class CatalogoViewModel(
-    catalogoRepository: CatalogoRepository,
+    alojamientoRepository: AlojamientoRepository,
+    sectorRepository: SectorRepository,
     preferenciasRepository: PreferenciasRepository
 ) : ViewModel() {
 
@@ -48,8 +50,8 @@ class CatalogoViewModel(
     val estado: StateFlow<CatalogoUiState> = filtros
         .flatMapLatest { f ->
             combine<List<Alojamiento>, List<Sector>, CatalogoUiState>(
-                catalogoRepository.observarFiltrados(f.sectorId, f.precioMax, f.texto),
-                catalogoRepository.observarSectores()
+                alojamientoRepository.observarFiltrados(f.sectorId, f.precioMax, f.texto),
+                sectorRepository.observarSectores()
             ) { alojamientos, sectores ->
                 CatalogoUiState.Success(
                     alojamientos = alojamientos,

@@ -3,7 +3,7 @@ package com.example.foraneogo.ui.configuracion
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foraneogo.data.model.Sector
-import com.example.foraneogo.data.repository.CatalogoRepository
+import com.example.foraneogo.data.repository.SectorRepository
 import com.example.foraneogo.data.repository.PreferenciasRepository
 import com.example.foraneogo.ui.common.UiEvent
 import kotlinx.coroutines.CancellationException
@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class ConfiguracionViewModel(
-    catalogoRepository: CatalogoRepository,
+    sectorRepository: SectorRepository,
     private val preferenciasRepository: PreferenciasRepository
 ) : ViewModel() {
 
@@ -35,7 +35,7 @@ class ConfiguracionViewModel(
     val estado: StateFlow<ConfiguracionUiState> = combine<
             List<Sector>, Long?, Double, Boolean, String?, ConfiguracionUiState
             >(
-        catalogoRepository.observarSectores(),
+        sectorRepository.observarSectores(),
         preferenciasRepository.observarSectorPreferido(),
         preferenciasRepository.observarPrecioMaximo(),
         preferenciasRepository.observarModoOscuro(),

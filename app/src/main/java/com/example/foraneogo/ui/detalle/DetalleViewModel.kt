@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.foraneogo.data.local.entities.EstadoSeguimiento
 import com.example.foraneogo.data.model.Alojamiento
 import com.example.foraneogo.data.model.Seguimiento
-import com.example.foraneogo.data.repository.CatalogoRepository
+import com.example.foraneogo.data.repository.AlojamientoRepository
 import com.example.foraneogo.data.repository.SeguimientoRepository
 import com.example.foraneogo.ui.common.UiEvent
 import kotlinx.coroutines.CancellationException
@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 
 class DetalleViewModel(
     savedStateHandle: SavedStateHandle,
-    catalogoRepository: CatalogoRepository,
+    alojamientoRepository: AlojamientoRepository,
     private val seguimientoRepository: SeguimientoRepository
 ) : ViewModel() {
 
@@ -52,7 +52,7 @@ class DetalleViewModel(
 
     // Único estado que expone este ViewModel.
     val estado: StateFlow<DetalleUiState> = combine<Alojamiento?, Seguimiento?, Borrador, DetalleUiState>(
-        catalogoRepository.observarAlojamiento(alojamientoId),
+        alojamientoRepository.observarAlojamiento(alojamientoId),
         seguimientoRepository.observarSeguimiento(alojamientoId),
         borrador
     ) { alojamiento, seguimiento, b ->
