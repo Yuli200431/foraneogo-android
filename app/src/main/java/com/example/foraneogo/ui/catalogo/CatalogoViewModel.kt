@@ -4,7 +4,8 @@ package com.example.foraneogo.ui.catalogo
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.foraneogo.data.repository.CatalogoRepository
+import com.example.foraneogo.data.repository.AlojamientoRepository
+import com.example.foraneogo.data.repository.SectorRepository
 import com.example.foraneogo.data.repository.PreferenciasRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,9 +18,15 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import com.example.foraneogo.data.model.Alojamiento
+import com.example.foraneogo.data.model.Sector
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class CatalogoViewModel(
-    catalogoRepository: CatalogoRepository,
+@HiltViewModel
+class CatalogoViewModel @Inject constructor(
+    alojamientoRepository: AlojamientoRepository,
+    sectorRepository: SectorRepository,
     preferenciasRepository: PreferenciasRepository
 ) : ViewModel() {
 
@@ -45,12 +52,11 @@ class CatalogoViewModel(
     @OptIn(ExperimentalCoroutinesApi::class)
     val estado: StateFlow<CatalogoUiState> = filtros
         .flatMapLatest { f ->
-            combine(
-                catalogoRepository.observarFiltrados(f.sectorId, f.precioMax, f.texto),
-                catalogoRepository.observarSectores()
+            combine<List<Alojamiento>, List<Sector>, CatalogoUiState>(
+                alojamientoRepository.observarFiltrados(f.sectorId, f.precioMax, f.texto),
+                sectorRepository.observarSectores()
             ) { alojamientos, sectores ->
-                CatalogoUiState(
-                    cargando = false,
+                CatalogoUiState.Success(
                     alojamientos = alojamientos,
                     sectores = sectores,
                     sectorSeleccionadoId = f.sectorId,
@@ -60,14 +66,13 @@ class CatalogoViewModel(
             }
         }
         .catch {
-            emit(CatalogoUiState(cargando = false, error = "No se pudo cargar el catálogo"))
+            emit(CatalogoUiState.Error("No se pudo cargar el catálogo"))
         }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = CatalogoUiState()
+            initialValue = CatalogoUiState.Loading
         )
-
     // Acciones del usuario. sectorId = null significa "todos los sectores".
     fun cambiarSector(sectorId: Long?) {
         filtros.update { it.copy(sectorId = sectorId) }

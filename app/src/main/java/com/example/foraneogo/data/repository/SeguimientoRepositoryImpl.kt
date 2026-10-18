@@ -14,8 +14,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class SeguimientoRepositoryImpl(
+class SeguimientoRepositoryImpl @Inject constructor(
     private val sectorDao: SectorDao,
     private val alojamientoDao: AlojamientoDao,
     private val seguimientoDao: SeguimientoDao

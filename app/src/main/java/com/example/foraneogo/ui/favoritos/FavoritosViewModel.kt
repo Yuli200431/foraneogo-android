@@ -14,8 +14,12 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import com.example.foraneogo.data.model.Alojamiento
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class FavoritosViewModel(
+@HiltViewModel
+class FavoritosViewModel @Inject constructor(
     private val seguimientoRepository: SeguimientoRepository
 ) : ViewModel() {
 
@@ -25,16 +29,16 @@ class FavoritosViewModel(
 
     // Único estado que expone este ViewModel.
     val estado: StateFlow<FavoritosUiState> = seguimientoRepository.observarFavoritos()
-        .map { lista ->
-            FavoritosUiState(cargando = false, favoritos = lista)
+        .map<List<Alojamiento>, FavoritosUiState> { lista ->
+            FavoritosUiState.Success(lista)
         }
         .catch {
-            emit(FavoritosUiState(cargando = false, error = "No se pudieron cargar los favoritos"))
+            emit(FavoritosUiState.Error("No se pudieron cargar los favoritos"))
         }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = FavoritosUiState()
+            initialValue = FavoritosUiState.Loading
         )
 
     // Acción del usuario: quita (o vuelve a poner) un alojamiento de favoritos.
