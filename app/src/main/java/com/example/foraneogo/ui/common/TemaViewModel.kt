@@ -6,9 +6,12 @@ import com.example.foraneogo.data.repository.PreferenciasRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 // Lee la preferencia de modo oscuro para aplicarla al tema de toda la app.
-class TemaViewModel(
+@HiltViewModel
+class TemaViewModel @Inject constructor(
     preferenciasRepository: PreferenciasRepository
 ) : ViewModel() {
 

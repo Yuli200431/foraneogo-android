@@ -9,8 +9,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class DashboardViewModel(
+@HiltViewModel
+class DashboardViewModel @Inject constructor(
     alojamientoRepository: AlojamientoRepository,
     seguimientoRepository: SeguimientoRepository
 ) : ViewModel() {

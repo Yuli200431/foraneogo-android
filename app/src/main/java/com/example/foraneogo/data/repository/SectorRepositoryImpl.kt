@@ -5,8 +5,9 @@ import com.example.foraneogo.data.mapper.aModelo
 import com.example.foraneogo.data.model.Sector
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class SectorRepositoryImpl(
+class SectorRepositoryImpl @Inject constructor(
     private val sectorDao: SectorDao
 ) : SectorRepository {
 

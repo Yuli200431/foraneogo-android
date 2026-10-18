@@ -20,8 +20,11 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import com.example.foraneogo.data.model.Alojamiento
 import com.example.foraneogo.data.model.Sector
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class CatalogoViewModel(
+@HiltViewModel
+class CatalogoViewModel @Inject constructor(
     alojamientoRepository: AlojamientoRepository,
     sectorRepository: SectorRepository,
     preferenciasRepository: PreferenciasRepository

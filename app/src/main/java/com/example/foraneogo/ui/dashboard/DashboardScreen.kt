@@ -3,8 +3,7 @@ package com.example.foraneogo.ui.dashboard
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.foraneogo.ui.common.ViewModelFactory
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun DashboardScreen(
@@ -12,7 +11,7 @@ fun DashboardScreen(
     onNavegarABitacora: () -> Unit,
     onNavegarAFavoritos: () -> Unit,
     onNavegarAConfiguracion: () -> Unit,
-    viewModel: DashboardViewModel = viewModel(factory = ViewModelFactory.Factory)
+    viewModel: DashboardViewModel = hiltViewModel()
 ) {
     val estado by viewModel.estado.collectAsStateWithLifecycle()
 

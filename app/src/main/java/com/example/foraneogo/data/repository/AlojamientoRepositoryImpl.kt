@@ -8,10 +8,11 @@ import com.example.foraneogo.data.model.Alojamiento
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 // Usa los DAO de sectores y seguimientos solo para completar cada alojamiento
 // con el nombre de su sector y saber si es favorito.
-class AlojamientoRepositoryImpl(
+class AlojamientoRepositoryImpl @Inject constructor(
     private val sectorDao: SectorDao,
     private val alojamientoDao: AlojamientoDao,
     private val seguimientoDao: SeguimientoDao

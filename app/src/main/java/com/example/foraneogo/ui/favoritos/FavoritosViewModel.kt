@@ -15,8 +15,11 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import com.example.foraneogo.data.model.Alojamiento
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class FavoritosViewModel(
+@HiltViewModel
+class FavoritosViewModel @Inject constructor(
     private val seguimientoRepository: SeguimientoRepository
 ) : ViewModel() {
 

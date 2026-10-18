@@ -21,8 +21,11 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class DetalleViewModel(
+@HiltViewModel
+class DetalleViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     alojamientoRepository: AlojamientoRepository,
     private val seguimientoRepository: SeguimientoRepository

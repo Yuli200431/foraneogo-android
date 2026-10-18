@@ -16,8 +16,11 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import com.example.foraneogo.data.model.SeguimientoConAlojamiento
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class BitacoraViewModel(
+@HiltViewModel
+class BitacoraViewModel @Inject constructor(
     private val seguimientoRepository: SeguimientoRepository
 ) : ViewModel() {
 

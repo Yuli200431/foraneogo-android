@@ -6,14 +6,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.foraneogo.ui.common.ObservarEventos
-import com.example.foraneogo.ui.common.ViewModelFactory
 
 @Composable
 fun DetalleScreen(
     onVolver: () -> Unit,
-    viewModel: DetalleViewModel = viewModel(factory = ViewModelFactory.Factory)
+    viewModel: DetalleViewModel = hiltViewModel()
 ) {
     val estado by viewModel.estado.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
